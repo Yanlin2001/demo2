@@ -104,6 +104,7 @@ smote = SMOTE()
 # @NOTE: y = 1/0
 
 X_resampled, y_resampled = smote.fit_resample(X, y)
+test_X_resampled, test_y_resampled = smote.fit_resample(test_X, test_y)
 print(X_resampled.shape, y_resampled.shape) # (38189, 391) (38189,)
 # X2d_resampled, y2d_resampled = smote.fit_resample(X2d, y2d)
 # 记录过采样结束时间
@@ -141,9 +142,10 @@ else:
 
 
 
-# 生成随机数据来模拟 (123004, 1427)
 data = X_resampled
 y = y_resampled
+test_X = test_X_resampled
+test_y = test_y_resampled
 
 # 最大-最小规范化
 
