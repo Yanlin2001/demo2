@@ -184,15 +184,31 @@ history = model.fit(
     batch_size=32  # 根据需求调整
 )
 
+from sklearn.metrics import accuracy_score, recall_score, f1_score, confusion_matrix
+
 # 测试集上的预测
 test_pred = model.predict([test_data_raw_lstm_input, test_data_a_cnn_input])
 test_pred = np.round(test_pred).flatten()  # 四舍五入
 
-# 计算测试集实验评估指标-灵敏度（sensitivity）特异度（specificity）准确度（accuracy），F1值
+# 计算准确度（Accuracy）
 test_accuracy = accuracy_score(test_y, test_pred)
+
+# 计算灵敏度（Sensitivity，使用召回率 recall_score）
+test_sensitivity = recall_score(test_y, test_pred)
+
+# 计算特异度（Specificity，需要从混淆矩阵中计算）
+tn, fp, fn, tp = confusion_matrix(test_y, test_pred).ravel()
+test_specificity = tn / (tn + fp)
+
+# 计算F1值
 test_f1 = f1_score(test_y, test_pred)
-print(f"Test accuracy: {test_accuracy:.2f}")
-print(f"Test F1 score: {test_f1:.2f}")
+
+# 输出结果
+print(f'Accuracy: {test_accuracy}')
+print(f'Sensitivity: {test_sensitivity}')
+print(f'Specificity: {test_specificity}')
+print(f'F1 Score: {test_f1}')
+
 
 # Step 5: 打印训练历史或可视化
 import matplotlib.pyplot as plt
