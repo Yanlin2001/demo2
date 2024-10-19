@@ -25,8 +25,6 @@ class CustomModel(Model):
         x_a = self.cnn2(x_a)
         x_a = self.flatten(x_a)  # shape: [batch_size, flatten_size]
         
-        # Concatenate LSTM and CNN outputs
-        combined = tf.concat([x_raw, x_a], axis=1)
 
         # Fully connected layers
         x = self.fc1(x_a)
