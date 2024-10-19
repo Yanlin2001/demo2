@@ -117,7 +117,10 @@ def preprocess_and_extract_features_mne_with_timestamps(file_name):
     total_windows = len(raw.times) // window_samples
 
     # 使用tqdm包装range对象以显示进度条
-    for start in tqdm(range(0, len(raw.times), window_samples), total=total_windows, desc="Processing windows"):
+    total_windows = len(range(0, len(raw.times), window_samples))
+    quarter_windows = total_windows // 4  # 25% 的窗口数
+
+    for start in tqdm(range(0, len(raw.times), window_samples), total=total_windows, desc="Processing windows", miniters=quarter_windows):
         end = start + window_samples
         if end > len(raw.times):
             break
