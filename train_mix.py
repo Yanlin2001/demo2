@@ -102,8 +102,9 @@ smote = SMOTE()
 # @NOTE: 过采样平衡数据
 # @NOTE: 过采样：对少数类样本进行插值，增加样本数量，使得少数类样本与多数类样本数量接近相等（不超原数据两倍）
 # @NOTE: y = 1/0
-X_resampled, y_resampled = smote.fit_resample(X, y)
-print(X_resampled.shape, y_resampled.shape) # (38189, 391) (38189,)
+
+# X_resampled, y_resampled = smote.fit_resample(X, y)
+# print(X_resampled.shape, y_resampled.shape) # (38189, 391) (38189,)
 # X2d_resampled, y2d_resampled = smote.fit_resample(X2d, y2d)
 # 记录过采样结束时间
 print("Number of positives in test_y:", sum(test_y == 1))
@@ -141,8 +142,8 @@ else:
 
 
 # 生成随机数据来模拟 (123004, 1427)
-data = X_resampled
-y = y_resampled
+data = X
+y = y
 
 # 最大-最小规范化
 
