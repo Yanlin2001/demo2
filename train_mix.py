@@ -151,8 +151,8 @@ y = y_resampled
 # data 与 test_X 一起规范化，以确保它们在相同的范围内
 min_all = np.min(np.vstack((data, test_X)), axis=0)
 max_all = np.max(np.vstack((data, test_X)), axis=0)
-#data = (data - min_all) / (max_all - min_all)
-#test_X = (test_X - min_all) / (max_all - min_all)
+data = (data - min_all) / (max_all - min_all)
+test_X = (test_X - min_all) / (max_all - min_all)
 
 # 分割数据 (与之前一致)
 data_raw = data[:, :len_raw]
