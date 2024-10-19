@@ -51,7 +51,7 @@ for subject_id in subject_ids:
 # 单独设置测试集（不加载和保存）
 test_X = []
 test_y = []
-test_subject_ids = [5]
+test_subject_ids = [1]
 for subject_id in test_subject_ids:
     print(f"Loading data for test subject {subject_id}...")
     X_test, y_test,len_info = load_data(subject_id, base_path)
