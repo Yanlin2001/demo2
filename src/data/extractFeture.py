@@ -9,7 +9,7 @@ import pywt
 from scipy.signal import welch
 
 
-def extract_advanced_features(data, fs, window_length_sec=32):
+def extract_advanced_features(data, fs, window_length_sec=24):
     """
     使用短时傅里叶变换（STFT）从 EEG 数据中提取高级特征。
 
@@ -104,7 +104,7 @@ def preprocess_and_extract_features_mne_with_timestamps(file_name):
 
     # 定义短时间窗口的参数
     # @DATA: 921600
-    window_length = 32  # 窗口长度（秒）
+    window_length = 24  # 窗口长度（秒）
     # @DATA: sfreq = 256
     sfreq = raw.info['sfreq']  # 采样频率
     # @DATA: window_samples = 256 * 4 = 1024
