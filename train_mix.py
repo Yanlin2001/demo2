@@ -177,9 +177,24 @@ data_a_cnn_input = np.reshape(data_a, (data_a.shape[0], len_a // 5, 5))  # (1230
 test_data_raw_lstm_input = np.expand_dims(test_data_raw, axis=-1)  # (123004, 1024, 1)
 test_data_a_cnn_input = np.reshape(test_data_a, (test_data_a.shape[0], len_a // 5, 5))  # (123004, 385, 5)
 
-# Step 1: 划分训练集和验证集
+'''# Step 1: 划分训练集和验证集
 x_raw_train, x_raw_val, x_a_train, x_a_val, y_train, y_val = train_test_split(
     data_raw_lstm_input, data_a_cnn_input, y, test_size=0.2, random_state=42
+)'''
+def split_data_without_randomness(data_raw_lstm_input, data_a_cnn_input, y, test_size=0.3):
+    # 计算划分点
+    split_index = int(len(y) * (1 - test_size))
+    
+    # 按照顺序划分数据
+    x_raw_train, x_raw_val = data_raw_lstm_input[:split_index], data_raw_lstm_input[split_index:]
+    x_a_train, x_a_val = data_a_cnn_input[:split_index], data_a_cnn_input[split_index:]
+    y_train, y_val = y[:split_index], y[split_index:]
+    
+    return x_raw_train, x_raw_val, x_a_train, x_a_val, y_train, y_val
+
+# 使用函数进行划分
+x_raw_train, x_raw_val, x_a_train, x_a_val, y_train, y_val = split_data_without_randomness(
+    data_raw_lstm_input, data_a_cnn_input, y, test_size=0.3
 )
 
 # Step 2: 定义模型
@@ -198,8 +213,8 @@ history = model.fit(
     x=[x_raw_train, x_a_train],
     y=y_train,
     validation_data=([x_raw_val, x_a_val], y_val),  # 验证数据
-    epochs=200,  # 根据需求调整
-    batch_size=128  # 根据需求调整
+    epochs=100,  # 根据需求调整
+    batch_size=32  # 根据需求调整
 )
 
 from sklearn.metrics import accuracy_score, recall_score, f1_score, confusion_matrix
