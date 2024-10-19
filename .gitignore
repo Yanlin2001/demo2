@@ -9,9 +9,6 @@ Desktop.ini
 $RECYCLE.BIN/
 
 # User Ingore
-models/
-data/
-datasets/
 external/caffe/matlab
 output/
 cachedir/
