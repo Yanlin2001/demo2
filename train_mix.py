@@ -206,6 +206,15 @@ val_accuracy = accuracy_score(y_val, val_pred)
 test_sensitivity = recall_score(test_y, test_pred)
 val_sensitivity = recall_score(y_val, val_pred)
 
+false_negatives = np.where((test_y == 1) & (test_pred == 0))
+
+# 输出标签为正但预测为负的索引
+print("False Negatives indices in test set:", false_negatives[0])
+
+# 输出 False Negatives 的实际标签和预测值
+print("True labels (test_y):", test_y[false_negatives])
+print("Predicted labels (test_pred):", test_pred[false_negatives])
+
 # 计算特异度（Specificity，需要从混淆矩阵中计算）
 tn, fp, fn, tp = confusion_matrix(test_y, test_pred).ravel()
 vtn, vfp, vfn, vtp = confusion_matrix(y_val, val_pred).ravel()
