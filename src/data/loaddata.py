@@ -58,7 +58,14 @@ def load_data(subject_id,base_path):
     
     # 使用tqdm包装迭代器以显示进度条
     len_info = None
-    for edf_file_path in tqdm(edf_file_paths, desc="Loading EDF files"):
+    '''  for edf_file_path in tqdm(edf_file_paths, desc="Loading EDF files"):
+        X, y , len_info = extract_data_and_labels(edf_file_path, summary_file_path)
+        all_X.append(X)
+        all_y.append(y)
+    return all_X, all_y, len_info'''
+
+    # 不使用tqdm
+    for edf_file_path in edf_file_paths:
         X, y , len_info = extract_data_and_labels(edf_file_path, summary_file_path)
         all_X.append(X)
         all_y.append(y)
