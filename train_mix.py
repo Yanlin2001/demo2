@@ -73,9 +73,13 @@ test_y = test_y.reshape(-1)
 # 合并 all_X 和 all_y, vstack是垂直合并, concatenate是水平合并
 # @DATA: X.shape = (27600,18), y.shape = (27600,) # (27600,18) -> (1200 , 23, 18) -> (1200 , 23 , 6 , 3)
 
-# 输出list数据形状
-print("all_X shape:", [x.shape for x in all_X])
-print("all_y shape:", [y.shape for y in all_y])
+# 将嵌套列表转换为 NumPy 数组
+all_X = [np.array(X) for X in all_X]
+all_y = [np.array(y) for y in all_y]
+
+# 输出每个元素的形状
+print("all_X shapes:", [X.shape for X in all_X])
+print("all_y shapes:", [y.shape for y in all_y])
 X = np.vstack(all_X)
 y = np.concatenate(all_y)
 #X = X.reshape(-1, len_w)
