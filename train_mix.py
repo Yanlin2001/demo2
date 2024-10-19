@@ -73,7 +73,8 @@ test_y = test_y.reshape(-1)
 # 合并 all_X 和 all_y, vstack是垂直合并, concatenate是水平合并
 # @DATA: X.shape = (27600,18), y.shape = (27600,) # (27600,18) -> (1200 , 23, 18) -> (1200 , 23 , 6 , 3)
 
-
+# 输出数据形状
+print(f"X shape: {X.shape}, y shape: {y.shape}")
 X = np.vstack(all_X)
 y = np.concatenate(all_y)
 #X = X.reshape(-1, len_w)
