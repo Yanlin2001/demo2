@@ -199,7 +199,7 @@ history = model.fit(
     y=y_train,
     validation_data=([x_raw_val, x_a_val], y_val),  # 验证数据
     epochs=50,  # 根据需求调整
-    batch_size=32  # 根据需求调整
+    batch_size=128  # 根据需求调整
 )
 
 from sklearn.metrics import accuracy_score, recall_score, f1_score, confusion_matrix
