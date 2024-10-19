@@ -48,6 +48,25 @@ for subject_id in subject_ids:
     all_y.append(y)
     len_per_subject = len(y[0])
 
+# 单独设置测试集（不加载和保存）
+test_X = []
+test_y = []
+test_subject_ids = [5]
+for subject_id in test_subject_ids:
+    print(f"Loading data for test subject {subject_id}...")
+    X_test, y_test,len_info = load_data(subject_id, base_path)
+    len_raw = len_info[0]
+    len_a = len_info[1]
+    len_w = len_info[2]
+    test_X.append(X_test)
+    test_y.append(y_test)
+
+test_X = np.vstack(test_X)
+test_y = np.concatenate(test_y)
+test_X = test_X.reshape(-1, len_raw + len_a + len_w)
+test_y = test_y.reshape(-1)
+
+
 
 
 # @TODO:23个通道的特征只是简单的拼接在一起，没有用到通道之间的关系
@@ -126,14 +145,19 @@ y = y_resampled
 
 # 最大-最小规范化
 data = (data - np.min(data, axis=0)) / (np.max(data, axis=0) - np.min(data, axis=0))
+test_X = (test_X - np.min(test_X, axis=0)) / (np.max(test_X, axis=0) - np.min(test_X, axis=0))
 
 # 分割数据 (与之前一致)
 data_raw = data[:, :len_raw]
 data_a = data[:, len_raw:len_raw + len_a]
+test_data_raw = test_X[:, :len_raw]
+test_data_a = test_X[:, len_raw:len_raw + len_a]
 
 # Reshape for LSTM and CNN inputs
 data_raw_lstm_input = np.expand_dims(data_raw, axis=-1)  # (123004, 1024, 1)
 data_a_cnn_input = np.reshape(data_a, (data_a.shape[0], len_a // 5, 5))  # (123004, 385, 5)
+test_data_raw_lstm_input = np.expand_dims(test_data_raw, axis=-1)  # (123004, 1024, 1)
+test_data_a_cnn_input = np.reshape(test_data_a, (test_data_a.shape[0], len_a // 5, 5))  # (123004, 385, 5)
 
 # Step 1: 划分训练集和验证集
 x_raw_train, x_raw_val, x_a_train, x_a_val, y_train, y_val = train_test_split(
@@ -159,6 +183,16 @@ history = model.fit(
     epochs=10,  # 根据需求调整
     batch_size=32  # 根据需求调整
 )
+
+# 测试集上的预测
+test_pred = model.predict([test_data_raw_lstm_input, test_data_a_cnn_input])
+test_pred = np.round(test_pred).flatten()  # 四舍五入
+
+# 计算测试集实验评估指标-灵敏度（sensitivity）特异度（specificity）准确度（accuracy），F1值
+test_accuracy = accuracy_score(test_y, test_pred)
+test_f1 = f1_score(test_y, test_pred)
+print(f"Test accuracy: {test_accuracy:.2f}")
+print(f"Test F1 score: {test_f1:.2f}")
 
 # Step 5: 打印训练历史或可视化
 import matplotlib.pyplot as plt
