@@ -78,8 +78,9 @@ all_X = [np.array(X) for X in all_X]
 all_y = [np.array(y) for y in all_y]
 
 # 输出每个元素的形状
-print("all_X shapes:", [X.shape for X in all_X])
-print("all_y shapes:", [y.shape for y in all_y])
+print("all_X shapes:", [len(X) for X in all_X])
+print("all_y shapes:", [len(y) for y in all_y])
+
 X = np.vstack(all_X)
 y = np.concatenate(all_y)
 #X = X.reshape(-1, len_w)
