@@ -106,6 +106,7 @@ X_resampled, y_resampled = smote.fit_resample(X, y)
 print(X_resampled.shape, y_resampled.shape) # (38189, 391) (38189,)
 # X2d_resampled, y2d_resampled = smote.fit_resample(X2d, y2d)
 # 记录过采样结束时间
+print("Number of positives in test_y:", sum(test_y == 1))
 oversampling_end_time = time.time()
 
 # 计算过采样耗时
