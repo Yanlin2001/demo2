@@ -23,6 +23,10 @@ base_path = "data" # 数据存放路径
 all_X = []
 all_y = []
 
+len_raw = None
+len_a = None
+len_w = None
+len_per_subject = None
 for subject_id in subject_ids:
     data_file = f"{base_path}/data_subject_{subject_id}.pkl"
     
