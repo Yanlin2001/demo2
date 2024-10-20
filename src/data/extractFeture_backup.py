@@ -163,16 +163,20 @@ def preprocess_and_extract_features_mne_with_timestamps(file_name):
 
         # 为每个通道的每个窗口提取基础和高级特征
         # @DATA: channel_data.shape = (768,)
+        flag = 0
         for channel_data in window_data:
-            # basic_features = extract_basic_features(channel_data)
-            # @DATA: advanced_features.shape = (385,)
-            # advanced_features = extract_advanced_features(channel_data, sfreq)
-            # @DATA: wavelet_features.shape = (18,)
-            wavelet_features = extract_wavelet_features(channel_data, sfreq)
-            # @DATA: combined_features.shape = (392,)
-            combined_features = np.concatenate([[timestamp], wavelet_features])
-
-            features_with_timestamps.append(combined_features)
+            if flag == 0:
+                # basic_features = extract_basic_features(channel_data)
+                # @DATA: advanced_features.shape = (385,)
+                # advanced_features = extract_advanced_features(channel_data, sfreq)
+                # @DATA: wavelet_features.shape = (18,)
+                wavelet_features = extract_wavelet_features(channel_data, sfreq)
+                # @DATA: combined_features.shape = (392,)
+                combined_features = np.concatenate([[timestamp], wavelet_features])
+                features_with_timestamps.append(combined_features)
+                flag = 1
+            else:
+                break
     # @NOTE: features_with_timestamps中每23行为一个窗口的23个通道的特征
     # @DATA: features_with_timestamps.shape = (27600,392) = (1200 * 23, 18)
     return np.array(features_with_timestamps)
