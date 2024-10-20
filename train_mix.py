@@ -211,7 +211,7 @@ history = model.fit(
     x=[x_raw_train, x_a_train],
     y=y_train,
     validation_data=([x_raw_val, x_a_val], y_val),  # 验证数据
-    epochs=10,  # 根据需求调整
+    epochs=5,  # 根据需求调整
     batch_size=32  # 根据需求调整
 )
 
