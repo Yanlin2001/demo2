@@ -162,6 +162,9 @@ else:
 
 data = X_resampled
 y = y_resampled
+test_X = test_X_resampled
+test_y = test_y_resampled
+
 
 # 最大-最小规范化
 
