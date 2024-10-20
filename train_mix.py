@@ -187,7 +187,7 @@ test_data_a_cnn_input = np.reshape(test_data_a, (test_data_a.shape[0], len_a // 
 
 # Step 1: 划分训练集和验证集
 x_raw_train, x_raw_val, x_a_train, x_a_val, y_train, y_val = train_test_split(
-    data_raw_lstm_input, data_a_cnn_input, y, test_size=0.2, random_state=42
+    data_raw_lstm_input, data_a_cnn_input, y, test_size=0.3, random_state=42
 )
 
 # Step 2: 定义模型
