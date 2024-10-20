@@ -96,13 +96,17 @@ print(f"Data preprocess time: {data_preprocess_time:.2f} seconds")
 oversampling_start_time = time.time()
 # 初始化 SMOTE 实例
 smote = SMOTE()
-from imblearn.under_sampling import RandomUnderSampler
 
-# 初始化 RandomUnderSampler 实例
-rus = RandomUnderSampler(random_state=42)  # 可以设置随机种子以确保结果的可重复性
+# @NOTE: SMOTE: Synthetic Minority Over-sampling Technique
+# 1. 找到标签 y 中的少数类（例如 y=1）
+# 2. 在少数类样本的特征空间中，通过现有样本之间的插值生成新的样本
+# 3. 生成的新样本与少数类样本相似，从而增加少数类样本数量，平衡类别分布
 
-# 应用 RandomUnderSampler 欠采样
-X_resampled, y_resampled = rus.fit_resample(X, y)
+# 应用 SMOTE 过采样
+# @NOTE: 过采样平衡数据
+# @NOTE: 过采样：对少数类样本进行插值，增加样本数量，使得少数类样本与多数类样本数量接近相等（不超原数据两倍）
+# @NOTE: y = 1/0
+X_resampled, y_resampled = smote.fit_resample(X, y)
 # @NOTE: SMOTE: Synthetic Minority Over-sampling Technique
 # 1. 找到标签 y 中的少数类（例如 y=1）
 # 2. 在少数类样本的特征空间中，通过现有样本之间的插值生成新的样本
