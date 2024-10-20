@@ -165,6 +165,7 @@ y = y_resampled
 
 # 最大-最小规范化
 
+print("calculating min and max")
 #data = (data - np.min(data, axis=0)) / (np.max(data, axis=0) - np.min(data, axis=0))
 #test_X = (test_X - np.min(test_X, axis=0)) / (np.max(test_X, axis=0) - np.min(test_X, axis=0))
 # data 与 test_X 一起规范化，以确保它们在相同的范围内
@@ -173,6 +174,7 @@ max_all = np.max(np.vstack((data, test_X)), axis=0)
 data = (data - min_all) / (max_all - min_all)
 test_X = (test_X - min_all) / (max_all - min_all)
 
+print("splitting data")
 # 分割数据 (与之前一致)
 data_raw = data[:, :len_raw]
 data_a = data[:, len_raw:len_raw + len_a]
@@ -195,6 +197,8 @@ lstm_units = 64
 cnn_filters = 32
 cnn_kernel_size = 3
 fc_units = 128
+
+print("Creating model")
 # Instantiate the custom model
 model = CustomModel(lstm_units=lstm_units, cnn_filters=cnn_filters, cnn_kernel_size=cnn_kernel_size, fc_units=fc_units)
 
