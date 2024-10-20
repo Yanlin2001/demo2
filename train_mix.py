@@ -135,9 +135,9 @@ from sklearn.model_selection import train_test_split
 from models import CustomModel  # 导入模型定义
 
 # 假设你有数据 (123004, 1427)，并已按照前面步骤拆分好
-len_raw = 1024
-len_a = 385
-len_w = 18
+#len_raw = 1024
+#len_a = 385
+#len_w = 18
 
 
 # 检查 GPU 是否可用
