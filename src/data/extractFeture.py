@@ -137,18 +137,23 @@ def preprocess_and_extract_features_mne_with_timestamps(file_name):
         # @DATA: channel_data.shape = (768,)
         flag = 0
         for channel_data in window_data:
+            # @DATA: advanced_features.shape = (18,)
             if flag < 4 :
-                # basic_features = extract_basic_features(channel_data)
-                # @DATA: advanced_features.shape = (385,)
-                # advanced_features = extract_advanced_features(channel_data, sfreq)
+                raw_channel_data = channel_data
+                len_raw = len(raw_channel_data)
+                advanced_features = extract_advanced_features(channel_data, sfreq)
+                len_a = len(advanced_features)
                 # @DATA: wavelet_features.shape = (18,)
                 wavelet_features = extract_wavelet_features(channel_data, sfreq)
+                len_w = len(wavelet_features)
                 # @DATA: combined_features.shape = (392,)
-                combined_features = np.concatenate([[timestamp], wavelet_features])
-                features_with_timestamps.append(combined_features)
+                combined_features = np.concatenate([[timestamp], raw_channel_data, advanced_features, wavelet_features])
                 flag += 1
             else:
                 break
+
+
+            features_with_timestamps.append(combined_features)
     # @NOTE: features_with_timestamps中每23行为一个窗口的23个通道的特征
     # @DATA: features_with_timestamps.shape = (27600,392) = (1200 * 23, 18)
     # 返回数据长度与数据
