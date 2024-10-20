@@ -201,6 +201,7 @@ model = CustomModel(lstm_units=lstm_units, cnn_filters=cnn_filters, cnn_kernel_s
 # Step 3: 编译模型，使用 binary_crossentropy 作为损失函数，accuracy 作为评估指标
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
+print(model.summary())
 # Step 4: 训练模型并加入验证集
 history = model.fit(
     x=[x_raw_train, x_a_train],
