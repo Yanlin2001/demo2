@@ -138,7 +138,7 @@ def preprocess_and_extract_features_mne_with_timestamps(file_name):
         flag = 0
         for channel_data in window_data:
             # @DATA: advanced_features.shape = (18,)
-            if flag < 4 :
+            if flag < 1 :
                 raw_channel_data = channel_data
                 len_raw = len(raw_channel_data)
                 advanced_features = extract_advanced_features(channel_data, sfreq)
