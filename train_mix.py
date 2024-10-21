@@ -188,11 +188,11 @@ test_data_w = test_X[:, len_raw + len_a:]
 
 # Reshape for LSTM and CNN inputs
 data_raw_lstm_input = np.expand_dims(data_raw, axis=-1)  # (123004, 1024, 1)
-data_w_concrete_input = np.expand_dims(data_w, axis=-1)  # (123004, 18, 1)
+data_w_concrete_input =data_w
 data_a_cnn_input = np.reshape(data_a, (data_a.shape[0], len_a // 5, 5))  # (123004, 385, 5)
 test_data_raw_lstm_input = np.expand_dims(test_data_raw, axis=-1)  # (123004, 1024, 1)
 test_data_a_cnn_input = np.reshape(test_data_a, (test_data_a.shape[0], len_a // 5, 5))  # (123004, 385, 5)
-test_data_w_concrete_input = np.expand_dims(test_data_w, axis=-1)  # (123004, 18, 1)
+test_data_w_concrete_input = test_data_w
 
 # Step 1: 划分训练集和验证集
 x_raw_train, x_raw_val, x_a_train, x_a_val, x_w_train, x_w_val, y_train, y_val = train_test_split(
