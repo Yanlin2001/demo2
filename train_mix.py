@@ -181,19 +181,22 @@ print("splitting data")
 # 分割数据 (与之前一致)
 data_raw = data[:, :len_raw]
 data_a = data[:, len_raw:len_raw + len_a]
+data_w = data[:, len_raw + len_a:]
 test_data_raw = test_X[:, :len_raw]
 test_data_a = test_X[:, len_raw:len_raw + len_a]
+test_data_w = test_X[:, len_raw + len_a:]
 
 # Reshape for LSTM and CNN inputs
 data_raw_lstm_input = np.expand_dims(data_raw, axis=-1)  # (123004, 1024, 1)
+data_w_concrete_input = np.expand_dims(data_w, axis=-1)  # (123004, 18, 1)
 data_a_cnn_input = np.reshape(data_a, (data_a.shape[0], len_a // 5, 5))  # (123004, 385, 5)
 test_data_raw_lstm_input = np.expand_dims(test_data_raw, axis=-1)  # (123004, 1024, 1)
 test_data_a_cnn_input = np.reshape(test_data_a, (test_data_a.shape[0], len_a // 5, 5))  # (123004, 385, 5)
+test_data_w_concrete_input = np.expand_dims(test_data_w, axis=-1)  # (123004, 18, 1)
 
 # Step 1: 划分训练集和验证集
-x_raw_train, x_raw_val, x_a_train, x_a_val, y_train, y_val = train_test_split(
-    data_raw_lstm_input, data_a_cnn_input, y, test_size=0.3, random_state=42
-)
+x_raw_train, x_raw_val, x_a_train, x_a_val, x_w_train, x_w_val, y_train, y_val = train_test_split(
+    data_raw_lstm_input, data_a_cnn_input, data_w_concrete_input, y, test_size=0.2, random_state=42)
 
 # Step 2: 定义模型
 lstm_units = 64
@@ -211,9 +214,9 @@ model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy']
 print(model.summary())
 # Step 4: 训练模型并加入验证集
 history = model.fit(
-    x=[x_raw_train, x_a_train],
+    x=[x_raw_train, x_a_train, x_w_train],  # 输入数据
     y=y_train,
-    validation_data=([x_raw_val, x_a_val], y_val),  # 验证数据
+    validation_data=([x_raw_val, x_a_val, x_w_val], y_val),  # 验证集
     epochs=30,  # 根据需求调整
     batch_size=32  # 根据需求调整
 )
@@ -221,9 +224,9 @@ history = model.fit(
 from sklearn.metrics import accuracy_score, recall_score, f1_score, confusion_matrix
 
 # 测试集上的预测
-test_pred = model.predict([test_data_raw_lstm_input, test_data_a_cnn_input])
+test_pred = model.predict([test_data_raw_lstm_input, test_data_a_cnn_input, test_data_w_concrete_input])
 test_pred = np.round(test_pred).flatten()  # 四舍五入
-val_pred = model.predict([x_raw_val, x_a_val])
+val_pred = model.predict([x_raw_val, x_a_val, x_w_val])
 val_pred = np.round(val_pred).flatten()  # 四舍五入
 
 # 计算准确度（Accuracy）

@@ -22,7 +22,7 @@ class CustomModel(Model):
         self.fc2 = layers.Dense(1, activation='sigmoid')
     def call(self, inputs):
         # LSTM part (for len_raw input)
-        x_raw, x_a = inputs
+        x_raw, x_a, x_w = inputs
         x_raw = self.lstm1(x_raw)
         x_raw = self.lstm2(x_raw)  # shape: [batch_size, lstm_units]
 
@@ -32,7 +32,7 @@ class CustomModel(Model):
         x_a = self.flatten(x_a)  # shape: [batch_size, flatten_size]
         
         # Concatenate LSTM and CNN outputs
-        combined = tf.concat([x_raw, x_a], axis=1)
+        combined = tf.concat([x_raw, x_a, x_w], axis=1)
 
         # Fully connected layers
         x = self.fc1(combined)
